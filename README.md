@@ -41,9 +41,6 @@ with PuLP 4 if `highspy` is installed.
 | `scripts/make_results.py` | Every number and figure in the report and slides, with fixed seeds |
 | `report_assets/` | Figures, app screenshots and `results.json` |
 | `docs/report/report.tex` | LaTeX source of the report; build it with `latexmk -pdf report.tex` |
-| `MSL304 Project Report.pdf` | The report |
-| `MSL304 Project PPT.pptx` | The presentation |
-| `MSL304 Presentation Video.mp4` | The recorded presentation |
 
 ## Modelling notes
 
