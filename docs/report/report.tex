@@ -49,6 +49,8 @@
 \vspace{1em}
 IIT Delhi \textperiodcentered{} November 2026
 \vfill
+{\small Live app: \href{https://msl304-security-queue-tool.streamlit.app/}{\nolinkurl{msl304-security-queue-tool.streamlit.app}}\\[0.3em]
+Code: \href{https://github.com/sidoreon/msl304-security-queue-tool}{\nolinkurl{github.com/sidoreon/msl304-security-queue-tool}}\par}
 \end{titlepage}
 
 \section*{Summary}
@@ -61,7 +63,7 @@ We built a tool that tells a security checkpoint how many screening lanes to ope
 \item Another lane pays for itself once the open lanes are about 78--87\% busy.
 \item Simulation agrees with every formula checked; bursty arrivals are the main risk.
 \end{itemize}
-All data and costs are assumed for illustration.
+All data and costs are assumed for illustration. The tool runs online at \href{https://msl304-security-queue-tool.streamlit.app/}{\nolinkurl{msl304-security-queue-tool.streamlit.app}}, and the code is at \href{https://github.com/sidoreon/msl304-security-queue-tool}{\nolinkurl{github.com/sidoreon/msl304-security-queue-tool}}.
 
 \section{Problem}
 Queues form when passengers arrive faster than the open lanes can screen them. Long waits cost passengers' time; extra lanes cost officers. The manager decides (i) the number of open lanes $c_t$ in each block $t=1,\dots,K$ and (ii) the queue design: one shared queue (\emph{pooled}), a queue per lane (\emph{separate}), or a priority lane. The goal is to minimise daily staffing plus waiting cost, subject to a waiting-time target in every block, utilisation below 1, and $1 \le c_t \le c_{\max}$.
@@ -94,7 +96,7 @@ The cost of block $t$ with $c$ lanes is
 \[
 \text{cost}_t(c) = C_s\,c + C_w\,\lambda_t\,\Delta\,\Wq(c),
 \]
-where $\lambda_t\Delta$ is the number of passengers in a block of length $\Delta$ (the proposal omitted $\Delta$). The problem is
+where $\lambda_t\Delta$ is the number of passengers in a block of length $\Delta$. The problem is
 \[
 \min_{c_1,\dots,c_K}\ \sum_t \text{cost}_t(c_t) + C_{sw}\sum_t \max(0,\,c_t-c_{t-1})
 \]
@@ -105,11 +107,11 @@ Without a switching cost ($C_{sw}=0$) the blocks are independent: the tool tries
 The break-even rate $\lambda^*$ for lane $c+1$ solves $C_w\lambda\Delta[\Wq(c;\lambda)-\Wq(c+1;\lambda)]=C_s$, found by a grid scan and Brent's method.
 
 \section{The tool}
-The tool is a Python package (\texttt{src/}) with a Streamlit app of six tabs: \emph{Problem}, \emph{Pooled vs Separate Queues}, \emph{Priority Lane Designs}, \emph{Staffing Plan}, \emph{Simulation Check} and \emph{Conclusions}. The first four tabs show an animated picture of the checkpoint, with lanes at the top, a black dot for the officer at each lane, and passengers queueing below (priority passengers are stars and the fast lane has a thick border), so the effect of each layout can be seen directly (Figure~\ref{fig:app}). Inputs are edited in the app and the plan can be downloaded as CSV. There are 98 automated tests.
+The tool is a Python package (\texttt{src/}) with a Streamlit app of six tabs: \emph{Problem}, \emph{Pooled vs Separate Queues}, \emph{Priority Lane Designs}, \emph{Staffing Plan}, \emph{Simulation Check} and \emph{Conclusions}. The first four tabs animate the checkpoint: lanes with an officer (black dot) at the top and passengers queueing below, with priority passengers as stars and the fast lane outlined (Figure~\ref{fig:app}). The plan downloads as CSV, and 98 automated tests cover the code.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\linewidth]{screens/queues.png}
+\includegraphics[width=0.72\linewidth]{screens/queues.png}
 \caption{The same passengers at 07:30 with 7 lanes. Left: one shared line, nobody waiting. Right: a line per lane, 11 people waiting while two lanes stand empty.}
 \label{fig:app}
 \end{figure}
@@ -192,7 +194,7 @@ Separate queues, shortest lane & 0.34\\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.92\linewidth]{fig_simulation.png}
+\includegraphics[width=0.78\linewidth]{fig_simulation.png}
 \caption{Formula against simulation (left) and simulated waits at the peak (right).}
 \label{fig:sim}
 \end{figure}
@@ -202,19 +204,26 @@ Varying one input at a time (Figure~\ref{fig:sens}), cost is most sensitive to t
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{fig_sens_tradeoff.png}
+\includegraphics[width=0.88\linewidth]{fig_sens_tradeoff.png}
 \caption{Peak-block cost against lanes, total cost by arrival scale and $C_w$, and the tornado chart.}
 \label{fig:sens}
 \end{figure}
 
+\section{Contributions}
+\textbf{Sidharth Valsan (2024MT10433), 55\%.} Wrote the code, including the Streamlit app and its queue animations, the lane optimiser and the automated tests. Generated the results and wrote them up, and recorded and edited the video.
+
+\medskip\noindent\textbf{Sohana Kumar (2024CS10251), 45\%.} Built the queueing models for the shared line, separate lines and priority lanes, and set up the cost formulation. Ran the simulation check and the sensitivity and break-even analyses.
+
+\medskip\noindent We planned the project and made the slides together, and both of us present in the video.
+
 \section{Recommendations and limitations}
-\begin{enumerate}
+\begin{enumerate}[itemsep=1pt,topsep=3pt]
 \item Use one shared line feeding all lanes.
 \item Open and close lanes through the day to follow the arrival curve.
 \item Open another lane when the open lanes are about 78--87\% busy.
 \item Size any fast lane to the share of priority passengers.
 \item Keep a spare lane for sudden rushes, which the Poisson model understates.
 \end{enumerate}
-The models assume steady state within each block, identical lanes and no abandonment. All inputs are assumed and should be replaced with measured data before use.
+The models assume steady state in each block, identical lanes and no abandonment, and all inputs should be replaced with measured data before use.
 
 \end{document}
