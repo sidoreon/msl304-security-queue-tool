@@ -2,6 +2,8 @@
 
 MSL304 Course Project by Sohana Kumar (2024CS10251) and Sidharth Valsan (2024MT10433)
 
+Live app: https://msl304-security-queue-tool.streamlit.app/
+
 The tool tells a security checkpoint how many screening lanes to open in each time block
 and how to arrange the queue. Passengers are the customers and each lane is a server. You
 enter the arrival rate in each block, the service rate of a lane and the costs; the tool
