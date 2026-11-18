@@ -1,6 +1,6 @@
-# Security checkpoint queue tool
+# Queueing-Based Design of Airport Security Checkpoints
 
-MSL304 project by Sohana Kumar (2024CS10251) and Sidharth Valsan (2024MT10433).
+MSL304 Course Project by Sohana Kumar (2024CS10251) and Sidharth Valsan (2024MT10433)
 
 The tool tells a security checkpoint how many screening lanes to open in each time block
 and how to arrange the queue. Passengers are the customers and each lane is a server. You
